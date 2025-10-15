@@ -1,4 +1,4 @@
-import 'package:firebase_auth/pages/SignUp.dart';
+import 'package:firebase_auth2/pages/SignUp.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 

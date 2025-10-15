@@ -1,3 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth2/pages/home.dart';
+import 'package:firebase_auth2/services/db.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
@@ -12,6 +15,62 @@ class _SignUpState extends State<SignUp> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
+  registration() async {
+    if (password != "" &&
+        nameController.text != "" &&
+        emailController.text != "") {
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password);
+
+        Map<String, dynamic> userInfoMap = {
+          "name": nameController.text,
+          "email": emailController.text,
+          // "Image":
+          //     "https://firebasestorage.googleapis.com/v0/b/barberapp-ebcc1.appspot.com/o/icon1.png?alt=media&token=0fad24a5-a01b-4d67-b4a0-676fbc75b34a",
+        };
+        await DatabaseMethods().addUserDetails(userInfoMap);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.green,
+            content: Text(
+              "Registered Successfully",
+              style: TextStyle(fontSize: 20.0),
+            ),
+          ),
+        );
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Home()),
+        );
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.orangeAccent,
+              content: Text(
+                "Password Provided is too Weak",
+                style: TextStyle(fontSize: 18.0),
+              ),
+            ),
+          );
+        } else if (e.code == "email-already-in-use") {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.orangeAccent,
+              content: Text(
+                "Account Already exists",
+                style: TextStyle(fontSize: 18.0),
+              ),
+            ),
+          );
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,6 +156,7 @@ class _SignUpState extends State<SignUp> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: TextField(
+                        obscureText: true,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: "Enter Your password",
@@ -105,21 +165,35 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ),
 
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.only(right: 20, top: 90.0),
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "SignUp",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 22.0,
-                            fontWeight: FontWeight.bold,
+                    GestureDetector(
+                      onTap: () {
+                        if (passwordController.text != "" &&
+                            nameController.text != "" &&
+                            emailController.text != "") {
+                          setState(() {
+                            email = emailController.text.trim();
+                            name = nameController.text.trim();
+                            password = passwordController.text.trim();
+                          });
+                        }
+                        registration();
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: EdgeInsets.only(right: 20, top: 90.0),
+                        height: 60,
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "SignUp",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),

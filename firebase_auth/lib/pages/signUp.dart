@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class LogIn extends StatefulWidget {
-  const LogIn({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
   @override
-  State<LogIn> createState() => _LogInState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _LogInState extends State<LogIn> {
+class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +29,7 @@ class _LogInState extends State<LogIn> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Wellcome!",
+                      "Create account",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 30,
@@ -37,15 +37,33 @@ class _LogInState extends State<LogIn> {
                       ),
                     ),
                     Text(
-                      "Move forward with us!",
+                      "Start your journey today",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    SizedBox(height: MediaQuery.of(context).size.height / 5),
-
+                    SizedBox(height: MediaQuery.of(context).size.height / 6),
+                    Container(
+                      padding: EdgeInsets.only(left: 20.0),
+                      margin: EdgeInsets.only(right: 20),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: const Color.fromARGB(115, 0, 0, 0),
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Enter Your name",
+                          hintStyle: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
                     Container(
                       padding: EdgeInsets.only(left: 20.0),
                       margin: EdgeInsets.only(right: 20),
@@ -82,6 +100,7 @@ class _LogInState extends State<LogIn> {
                         ),
                       ),
                     ),
+
                     Container(
                       width: MediaQuery.of(context).size.width,
                       margin: EdgeInsets.only(right: 20, top: 90.0),
@@ -92,7 +111,7 @@ class _LogInState extends State<LogIn> {
                       ),
                       child: Center(
                         child: Text(
-                          "LogIn",
+                          "SignUp",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 22.0,

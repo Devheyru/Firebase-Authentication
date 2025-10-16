@@ -1,3 +1,4 @@
+import 'package:firebase_auth2/pages/logIn.dart';
 import 'package:firebase_auth2/pages/signUp.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,11 @@ class _HomeState extends State<Home> {
         children: [
           GestureDetector(
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => LogIn()),
+                (route) => false,
+              );
             },
             child: Center(
               heightFactor: 20,
